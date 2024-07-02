@@ -4,18 +4,19 @@ import asyncio
 PORT = 7000
 URL = 'localhost'
 connections={}
-next_name=[1] #mora da bude mutable, ne moze da bude int
+next_name=1
 async def glavna(ws, path):
     print("Klijent se zakacio")
-    connections[ws]=next_name[0]
-    next_name[0]+=1
-    await ws.send("Prikljucio si se")
+    global next_name
+    connections[ws]=next_name
+    await ws.send("Prikljucio si se. Tvoj ID je " + str(next_name))
+    next_name+=1
     try:
-        async for poruka in ws:
+        async for poruka in ws: #zauvek se proverava
             print("Poruka: " + poruka)
             for otherws in connections.keys():
                 if not ws == otherws:
-                    await otherws.send(str(connections[otherws])+" kaze " + poruka)
+                    await otherws.send(str(connections[ws])+" kaze " + poruka)
             
     except websockets.exceptions.ConnectionClosedError:
         print("Klijent se neocekivano otkacio")

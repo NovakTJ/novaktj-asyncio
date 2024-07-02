@@ -11,13 +11,13 @@ async def rukovanje():
     return ws
     
 async def primi(ws):
-    async for poruka in ws:
+    async for poruka in ws: #zauvek se proverava
         print(poruka)
 
 async def salji(ws):
     while True:
         str = await aioconsole.ainput()
-        if(str=="kraj"):
+        if str=="kraj" :
             await ws.send("Dovidjenja")
             await ws.close()
             print("Otkacio sam se")
