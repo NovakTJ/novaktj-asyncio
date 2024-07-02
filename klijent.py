@@ -32,4 +32,4 @@ async def glavna():
     except websockets.exceptions.ConnectionClosed:
         print("Konekcija je zavrsena")
 
-asyncio.get_event_loop().run_until_complete(glavna())
+asyncio.run(glavna())
